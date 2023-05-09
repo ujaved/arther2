@@ -10,7 +10,7 @@ streamlit_cropper = "*"
 pillow = "*"
 replicate = "*"
 streamlit-extras = "*"
-opencv-python = "*"
+opencv-python-headless = "*"
 streamlit-image-coordinates = "*"
 scikit-learn = "*"
 
