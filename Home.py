@@ -59,11 +59,13 @@ def auto_canny(image, sigma=0.33):
     lower = int(max(0, (1.0 - sigma) * v))
     upper = int(min(255, (1.0 + sigma) * v))
     edges = cv2.Canny(blurred, lower, upper)
+
+    edges = 255 - edges 
+    # to increase contrast
+    edges = cv2.createCLAHE().apply(edges)
     return edges
 
 # image is an np array
-
-
 @st.cache_data(show_spinner='')
 def getKMeans(image, number_of_colors):
     modified_image = image.reshape(image.shape[0]*image.shape[1], 3)
@@ -90,7 +92,7 @@ def promptCallback():
         st.session_state.color_clusters = clusters
         st.session_state.cluster_centers = cluster_centers
         gs_image = image.convert('L')
-        image_to_color = 255-auto_canny(np.array(gs_image))
+        image_to_color = auto_canny(np.array(gs_image))
         image_to_color = cv2.cvtColor(image_to_color, cv2.COLOR_GRAY2RGB)
         image_to_color_flattened = image_to_color.reshape((-1, 3))
         st.session_state.image_to_color_flattened = image_to_color_flattened
